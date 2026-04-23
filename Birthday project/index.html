@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Sweety!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --soft-pink: #fce4ec;
+            --rose-gold: #b76e79;
+            --creamy-white: #fffdd0;
+            --text-dark: #5a3e46;
+        }
+
+        body {
+            /* Elegant gradient background */
+            background: linear-gradient(135deg, var(--soft-pink) 0%, #f8bbd0 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        /* Interactive Entry Screen */
+        #entry-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+            transition: opacity 0.5s ease;
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, var(--rose-gold), #d98895);
+            color: white;
+            border: none;
+            padding: clamp(15px, 4vw, 20px) clamp(30px, 8vw, 50px);
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(183, 110, 121, 0.4);
+            animation: pulse 2s infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(183, 110, 121, 0.6);
+        }
+
+        .open-btn:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(183, 110, 121, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(183, 110, 121, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 110, 121, 0); }
+        }
+
+        /* Main Content (Hidden Initially) */
+        #main-content {
+            display: none; /* Toggled via JS */
+            opacity: 0;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: clamp(30px, 6vw, 50px);
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(183, 110, 121, 0.15);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Typography & Animations */
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 10vw, 5rem);
+            color: var(--rose-gold);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        p {
+            font-size: clamp(1rem, 3.5vw, 1.25rem);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-in-text {
+            animation: textFadeIn 1s forwards;
+        }
+
+        .delay-1 { animation-delay: 0.5s; }
+        .delay-2 { animation-delay: 1s; }
+
+        @keyframes textFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* JS Floating Particles */
+        .particle {
+            position: absolute;
+            bottom: -10vh;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="birthday-audio" loop>
+        <source src="planeterium.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="entry-screen">
+        <button class="open-btn" onclick="revealSurprise()">Tap to Open a Sweet Surprise ✨</button>
+    </div>
+
+    <div id="main-content">
+        <div class="glass-card">
+    <h1 id="heading">Happy Birthday, Sweety!</h1>
+    <p id="msg1">The world is brighter just because you’re in it,</p>
+    <p id="msg2">You capture magic in every single minute.</p>
+    <p id="msg3"> Hi dear, even though I coudn't add everything I wanted to because I put this together in a very short time but I hope you like it... and regardless of that A Very Very Very Happy Birthday to the most beautiful soul I've ever known, just know that you are really sweet asset to this planet. Love ya💖 Peace🕊️
+       </div>
+
+    <script>
+        function revealSurprise() {
+            // 1. Handle Audio
+            const audio = document.getElementById('birthday-audio');
+            audio.play().catch(error => console.log("Audio playback requires user interaction."));
+
+            // 2. Hide Entry Screen
+            const entryScreen = document.getElementById('entry-screen');
+            entryScreen.style.opacity = '0';
+            setTimeout(() => {
+                entryScreen.style.display = 'none';
+                
+                // 3. Show Main Content
+                const mainContent = document.getElementById('main-content');
+                mainContent.style.display = 'flex';
+                mainContent.style.opacity = '1';
+
+                // 4. Trigger Text Animations
+                document.getElementById('heading').classList.add('fade-in-text');
+                document.getElementById('msg1').classList.add('fade-in-text', 'delay-1');
+                document.getElementById('msg2').classList.add('fade-in-text', 'delay-2');
+                document.getElementById('msg3').classList.add('fade-in-text', 'delay-3');
+
+                // 5. Start Particles
+                setInterval(createParticle, 400);
+            }, 500); // Wait for fade out
+        }
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // The "Sweet" Icon Array
+            const icons = ['🌸', '✨', '💖', '❤️', '🎀', '🌹'];
+            particle.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+
+            // Randomize styling for natural movement
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
+            particle.style.animationDuration = Math.random() * 4 + 4 + 's'; // 4s to 8s
+            particle.style.opacity = Math.random() * 0.5 + 0.5;
+
+            document.body.appendChild(particle);
+
+            // Cleanup to prevent memory leaks
+            setTimeout(() => {
+                particle.remove();
+            }, 8000); // Must match max animation duration
+        }
+    </script>
+</body>
+</html>
